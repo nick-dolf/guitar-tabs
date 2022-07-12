@@ -18,6 +18,7 @@ class TimeSignature extends Component {
   };
   render() {
     const { upper, lower } = this.props;
+
     return (
       <svg
         className="mb-3"

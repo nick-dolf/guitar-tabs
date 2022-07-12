@@ -122,6 +122,7 @@ class Song extends Component {
               chord_num={index}
               increaseFret={this.increaseFret}
               decreaseFret={this.decreaseFret}
+              measurePos={index % this.state.time.upper}
             />
           );
         })}

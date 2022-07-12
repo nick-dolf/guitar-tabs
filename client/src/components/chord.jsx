@@ -26,6 +26,22 @@ class Chord extends Component {
   };
 
   render() {
+    const { measurePos } = this.props;
+
+    let bar;
+    if (measurePos === 0) {
+      bar = (
+        <line
+          x1="0"
+          y1="0"
+          x2="0"
+          y2={this.state.height}
+          strokeWidth="6"
+          stroke="black"
+        />
+      );
+    }
+
     return (
       <svg
         className="mb-3"
@@ -43,7 +59,6 @@ class Chord extends Component {
           strokeWidth="2"
           stroke="lightgrey"
         />
-
         {this.state.strings.map((string, index) => {
           return (
             <String
@@ -61,7 +76,6 @@ class Chord extends Component {
             />
           );
         })}
-
         {this.props.strings.map((string) => {
           return (
             <Finger
@@ -72,6 +86,7 @@ class Chord extends Component {
             />
           );
         })}
+        {bar}
       </svg>
     );
   }
