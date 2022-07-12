@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import Chord from "./chord";
 import axios from "axios";
+import TimeSignature from "./timeSignature";
 
 class Song extends Component {
   state = {
+    time: { upper: 3, lower: 4 },
     chords: [
       [
         { string: 0, finger: 0 },
@@ -65,6 +67,22 @@ class Song extends Component {
     this.setState({ chords });
   };
 
+  handleUpper = () => {
+    let time = this.state.time;
+
+    time.upper = time.upper + 1;
+    if (time.upper > 4) time.upper = 1;
+    this.setState({ time });
+  };
+
+  handleLower = () => {
+    let time = this.state.time;
+
+    time.lower = time.lower + 1;
+    if (time.lower > 4) time.lower = 1;
+    this.setState({ time });
+  };
+
   saveSong = () => {
     axios
       .post("/api", this.state.chords)
@@ -90,6 +108,12 @@ class Song extends Component {
             Delete chord
           </button>
         </div>
+        <TimeSignature
+          onUpper={this.handleUpper}
+          onLower={this.handleLower}
+          upper={this.state.time.upper}
+          lower={this.state.time.lower}
+        />
         {this.state.chords.map((chord, index) => {
           return (
             <Chord
