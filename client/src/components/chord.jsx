@@ -5,7 +5,7 @@ import String from "./string";
 class Chord extends Component {
   state = {
     height: 256,
-    width: 128,
+    width: 96,
     margin: 28,
     gap: 40,
     strings: [
@@ -28,6 +28,7 @@ class Chord extends Component {
   render() {
     return (
       <svg
+        className="mb-3"
         style={{ background: "white" }}
         height="200"
         viewBox={`0 0 ${this.state.width} ${this.state.height}`}
@@ -40,7 +41,7 @@ class Chord extends Component {
           width={this.state.width}
           fill="none"
           strokeWidth="2"
-          stroke="black"
+          stroke="lightgrey"
         />
 
         {this.state.strings.map((string, index) => {
