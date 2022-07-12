@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Chord from "./chord";
+import axios from "axios";
 
 class Song extends Component {
   state = {
@@ -20,6 +21,12 @@ class Song extends Component {
 
   addChord = () => {
     this.setState((prev) => ({ chords: [...prev.chords, []] }));
+  };
+
+  deleteChord = () => {
+    const chords = this.state.chords;
+    chords.pop();
+    this.setState({ chords });
   };
 
   increaseFret = (chord_num, string_num) => {
@@ -58,9 +65,31 @@ class Song extends Component {
     this.setState({ chords });
   };
 
+  saveSong = () => {
+    axios
+      .post("/api", this.state.chords)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   render() {
     return (
       <React.Fragment>
+        <div>
+          <button className="btn btn-primary m-2" onClick={this.saveSong}>
+            Save
+          </button>
+          <button className="btn btn-primary m-2" onClick={this.addChord}>
+            Add chord
+          </button>
+          <button className="btn btn-danger m-2" onClick={this.deleteChord}>
+            Delete chord
+          </button>
+        </div>
         {this.state.chords.map((chord, index) => {
           return (
             <Chord
@@ -71,9 +100,7 @@ class Song extends Component {
               decreaseFret={this.decreaseFret}
             />
           );
-          console.log(chord);
         })}
-        <button onClick={this.addChord}>Add chord</button>
       </React.Fragment>
     );
   }

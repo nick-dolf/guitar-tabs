@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+svg {
+  user-select: none;
+}
+
+.increase-fret:hover {
+  cursor: pointer;
+  fill: lightgrey;
+  stroke: black;
+}
+
+.decrease-fret:hover {
+  cursor: pointer;
+  fill: lightgrey;
+  stroke: black;
+}
