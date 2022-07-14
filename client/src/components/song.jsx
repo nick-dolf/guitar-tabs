@@ -5,20 +5,19 @@ import TimeSignature from "./timeSignature";
 
 class Song extends Component {
   state = {
-    time: { upper: 3, lower: 4 },
-    chords: [
-      [
-        { string: 0, finger: 0 },
-        { string: 2, finger: 1 },
-        { string: 4, finger: 2 },
-      ],
-    ],
+    song: {
+      name: "",
+      time: { upper: 4, lower: 4 },
+      chords: [],
+    },
   };
 
   componentDidMount() {
     fetch("/api")
       .then((res) => res.json())
-      .then((song) => this.setState({ chords: song }));
+      .then((song) => {
+        this.setState({ song });
+      });
   }
 
   addChord = () => {
@@ -68,7 +67,7 @@ class Song extends Component {
   };
 
   handleUpper = () => {
-    let time = this.state.time;
+    let time = this.state.song.time;
 
     time.upper = time.upper + 1;
     if (time.upper > 4) time.upper = 1;
@@ -76,7 +75,7 @@ class Song extends Component {
   };
 
   handleLower = () => {
-    let time = this.state.time;
+    let time = this.state.song.time;
 
     time.lower = time.lower + 1;
     if (time.lower > 4) time.lower = 1;
@@ -85,7 +84,7 @@ class Song extends Component {
 
   saveSong = () => {
     axios
-      .post("/api", this.state.chords)
+      .post("/api", this.state.song)
       .then(function (response) {
         console.log(response);
       })
@@ -95,8 +94,11 @@ class Song extends Component {
   };
 
   render() {
+    const { song } = this.state;
+
     return (
       <React.Fragment>
+        <h1>{song.name}</h1>
         <div>
           <button className="btn btn-primary m-2" onClick={this.saveSong}>
             Save
@@ -111,10 +113,10 @@ class Song extends Component {
         <TimeSignature
           onUpper={this.handleUpper}
           onLower={this.handleLower}
-          upper={this.state.time.upper}
-          lower={this.state.time.lower}
+          upper={song.time.upper}
+          lower={song.time.lower}
         />
-        {this.state.chords.map((chord, index) => {
+        {song.chords.map((chord, index) => {
           return (
             <Chord
               key={index}
@@ -122,7 +124,7 @@ class Song extends Component {
               chord_num={index}
               increaseFret={this.increaseFret}
               decreaseFret={this.decreaseFret}
-              measurePos={index % this.state.time.upper}
+              measurePos={index % song.time.upper}
             />
           );
         })}
